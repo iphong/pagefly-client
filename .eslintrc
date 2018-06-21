@@ -1,0 +1,34 @@
+{
+  "env": {
+    "node": true,
+    "mocha": true,
+    "es6": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module"
+  },
+  "extends": [
+    "eslint-config-react-app"
+  ],
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "camelcase": 0,
+    "no-unused-expressions": 1,
+    "one-var": [
+      1,
+      {
+        "initialized": "never"
+      }
+    ],
+    "no-unused-vars": 1,
+    "semi": 0,
+    "indent": 0,
+    "operator-linebreak": 0,
+    "react/sort-comp": 0,
+    "new-cap": 0
+  }
+}
