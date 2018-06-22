@@ -45,7 +45,7 @@ module.exports = {
 	appBuild: resolveApp('build'),
 	appPublic: resolveApp('public'),
 	appHtml: resolveApp('public/index.html'),
-	appIndexJs: resolveApp(`src/${DIR}/index.js`),
+	appIndexJs: resolveApp(`src/${DIR}/index.tsx`),
 	appDir: resolveApp(`src/${DIR}`),
 	appShared: resolveApp(`src/shared`),
 	appLocalConfig: resolveApp('config/local.js'),

@@ -139,7 +139,7 @@ module.exports = {
     // https://github.com/facebook/create-react-app/issues/290
     // `web` extension prefixes have been added for better support
     // for React Native Web.
-    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: [".ts", ".tsx", '.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
       
       // Support React Native Web
@@ -239,6 +239,8 @@ module.exports = {
               },
             ],
           },
+	        { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+	        { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
           // Process any JS outside of the app with Babel.
           // Unlike the application JS, we only compile the standard ES features.
           {
