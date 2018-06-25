@@ -51,7 +51,7 @@
     "style-loader": "0.21.0",
     "sw-precache-webpack-plugin": "0.11.5",
     "thread-loader": "1.1.5",
-    "uglifyjs-webpack-plugin": "1.2.5",
+    "uglifyjs-webpack-plugin": "1.2.6",
     "url-loader": "1.0.1",
     "webpack": "^4.12.0",
     "webpack-dev-server": "3.1.4",
@@ -118,6 +118,7 @@
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.0",
     "source-map-loader": "^0.2.3",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "typescript-eslint-parser": "^16.0.0"
   }
 }
