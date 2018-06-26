@@ -8581,9 +8581,9 @@ unset-value@^1.0.0:
     has-value "^0.3.1"
     isobject "^3.0.0"
 
-unstated-x@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/unstated-x/-/unstated-x-0.0.5.tgz#cf399644af7add4274f8cb323d61d440b94e3535"
+unstated-x@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/unstated-x/-/unstated-x-0.0.7.tgz#20576cff6b18f4bc7da84248aba6c69cb81afa2b"
   dependencies:
     create-react-context "^0.2.2"
 
