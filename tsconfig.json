@@ -1,12 +1,22 @@
 {
   "compilerOptions": {
-	"module": "commonjs",
-	"target": "es2017",
-	"sourceMap": true,
-	"noImplicitAny": true,
-	"jsx": "react"
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "target": "es2017",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "baseUrl": "./src",
+    "paths": {
+      "*": [
+        "*",
+        "shared/*"
+      ]
+    }
   },
   "include": [
-	"./src/**/*"
+    "./src/**/*"
   ]
 }
