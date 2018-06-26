@@ -1314,7 +1314,7 @@
     "@types/node" "*"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.4.1":
+"@types/react@*", "@types/react@^16.4.2":
   version "16.4.2"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.2.tgz#f1a9cf1ee85221530def2ac26aee20f910a9dac8"
   dependencies:
@@ -1747,15 +1747,15 @@ atob@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
 
-autoprefixer@8.6.3:
-  version "8.6.3"
-  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-8.6.3.tgz#1d38a129e6a4582a565b6570d16f2d7d3de9cbf9"
+autoprefixer@8.6.4:
+  version "8.6.4"
+  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-8.6.4.tgz#6bf501de426a3b95973f5d237dbcc9181e9904d2"
   dependencies:
     browserslist "^3.2.8"
-    caniuse-lite "^1.0.30000856"
+    caniuse-lite "^1.0.30000859"
     normalize-range "^0.1.2"
     num2fraction "^1.2.2"
-    postcss "^6.0.22"
+    postcss "^6.0.23"
     postcss-value-parser "^3.2.3"
 
 autoprefixer@^6.3.1:
@@ -2365,7 +2365,7 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   version "1.0.30000859"
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000859.tgz#6e813a1757f19a93cb3675f6b5037aca80bea062"
 
-caniuse-lite@^1.0.30000830, caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30000856:
+caniuse-lite@^1.0.30000830, caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30000859:
   version "1.0.30000859"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000859.tgz#da974adc5348fffe94724877a7ef8cb5d6d3d777"
 
@@ -6356,9 +6356,9 @@ optimist@^0.6.1:
     minimist "~0.0.1"
     wordwrap "~0.0.2"
 
-optimize-css-assets-webpack-plugin@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/optimize-css-assets-webpack-plugin/-/optimize-css-assets-webpack-plugin-4.0.2.tgz#813d511d20fe5d9a605458441ed97074d79c1122"
+optimize-css-assets-webpack-plugin@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/optimize-css-assets-webpack-plugin/-/optimize-css-assets-webpack-plugin-4.0.3.tgz#4f714e276b279700892c4a6202b7e22812d6f683"
   dependencies:
     cssnano "^3.10.0"
     last-call-webpack-plugin "^3.0.0"
@@ -6923,7 +6923,7 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
-postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.22:
+postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.23:
   version "6.0.23"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
   dependencies:
@@ -8581,9 +8581,9 @@ unset-value@^1.0.0:
     has-value "^0.3.1"
     isobject "^3.0.0"
 
-unstated-x@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/unstated-x/-/unstated-x-0.0.3.tgz#2a891e11d769fbfe318afec91d21cd72d6602180"
+unstated-x@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/unstated-x/-/unstated-x-0.0.5.tgz#cf399644af7add4274f8cb323d61d440b94e3535"
   dependencies:
     create-react-context "^0.2.2"
 

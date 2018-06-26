@@ -18,14 +18,15 @@ class App extends Component {
 			<Provider>
 				<div className="App">
 					<IFrame>
+						<h3>This is demo Element</h3>
 						<div>
 							<Paragraph/>
 						</div>
 					</IFrame>
 
+					<h3>This is demo control inspector:</h3>
 					<Subscribe to={[SelectedContainer]}>
 						{({state: {selected}}) => {
-							console.log(33333,selected.container.state)
 							return selected && selected.container.state && <Subscribe to={[selected.container]}>
 									{container => <Inspector target={selected} container={container}/>}
 							</Subscribe>
@@ -71,13 +72,13 @@ const createElement = (settings: object) => (Element: any) => {
 		}, context: object) {
 			super(props, context)
 			const { data, ...rest } = props
-			this.state = {
+			const containerState = {
 				...Element.defaultProps,
 				...data
 			}
 
-			console.log(2222, this.state)
-			this.container = new Container(this.state)
+			console.log(2222, containerState)
+			this.container = new Container(containerState)
 
 		}
 
@@ -91,8 +92,7 @@ const createElement = (settings: object) => (Element: any) => {
 			return (
 				<Subscribe to={[this.container]}>
 					{container => {
-						console.log(111, this.state)
-
+						console.log(1111, container.state)
 						return <Element {...container.state} container={container}/>
 					}}
 				</Subscribe>
