@@ -3,7 +3,7 @@ import IFrame from 'components/IFrame';
 import {Container, Provider, Subscribe} from 'unstated-x';
 
 const SelectedContainer = new Container({
-	selected: null
+	selected: {container: Container}
 })
 
 declare global {
@@ -17,18 +17,18 @@ class App extends Component {
 		return (
 			<Provider>
 				<div className="App">
-					123123
 					<IFrame>
 						<div>
-
 							<Paragraph/>
 						</div>
-
 					</IFrame>
 
 					<Subscribe to={[SelectedContainer]}>
 						{({state: {selected}}) => {
-							return selected && <Inspector target={selected}/>
+							console.log(33333,selected.container.state)
+							return selected && selected.container.state && <Subscribe to={[selected.container]}>
+									{container => <Inspector target={selected} container={container}/>}
+							</Subscribe>
 						}}
 					</Subscribe>
 
@@ -45,17 +45,19 @@ type ParagraphState = {
 class Inspector extends React.Component<{
 	target: {
 		state: { value: string }
-		setState: Function
-	}
+		setState: Function,
+	},
+	container: Container<any>
 }> {
 
-	render() {
+	get container() {
+		return this.props.container
+	}
 
-		const {target} = this.props
-		console.log(target)
-		window.selected = target
+	render() {
+		const {container} = this
 		return <div>
-			<input value={target.state.value} onChange={e => target.setState({value: e.target.value})}/>
+			<input value={container.state.value} onChange={e => container.setStateSync({value: e.target.value})}/>
 		</div>
 	}
 }
@@ -70,14 +72,30 @@ const createElement = (settings: object) => (Element: any) => {
 			super(props, context)
 			const { data, ...rest } = props
 			this.state = {
+				...Element.defaultProps,
 				...data
 			}
+
+			console.log(2222, this.state)
 			this.container = new Container(this.state)
+
+		}
+
+		componentDidMount() {
+			SelectedContainer.setState({
+				selected: this
+			})
 		}
 
 		render() {
 			return (
-				<Element container={this.container}/>
+				<Subscribe to={[this.container]}>
+					{container => {
+						console.log(111, this.state)
+
+						return <Element {...container.state} container={container}/>
+					}}
+				</Subscribe>
 			)
 		}
 
@@ -85,23 +103,32 @@ const createElement = (settings: object) => (Element: any) => {
 }
 
 const Paragraph = createElement({})(
-	class extends React.Component {
+	class extends React.Component<{value: string, container: Container<any>}> {
+
+		static defaultProps = {
+			value: 'Hello world!'
+		}
 
 		get content() {
 			return this.contentEditable.current
 		}
 
-		state: ParagraphState = {
-			value: 'Hello world!'
+		get container() {
+			return this.props.container
 		}
+
 		lastHtml: string = ''
 
 		componentDidMount() {
-			this.content.innerHTML = this.state.value
+			this.content.innerHTML = this.props.value
+		}
 
-			SelectedContainer.setState({
-				selected: this
-			})
+		componentDidUpdate(nextProps: {
+			value: string
+		}) {
+			if (this.props.value !== nextProps.value && !this.content.matches(':focus')) {
+				this.content.innerHTML = nextProps.value
+			}
 		}
 
 		contentEditable: RefObject<HTMLSpanElement> = React.createRef()
@@ -110,23 +137,20 @@ const Paragraph = createElement({})(
 			const target: HTMLElement = e.currentTarget
 			const html = target.innerHTML
 			if (html !== this.lastHtml) {
-				console.log('setValue', html)
-				this.updateValue(html)
+				this.container.setState({value: html})
 			}
 			this.lastHtml = html
 		}
 
-		updateValue = (value: string) => this.setState({value})
-
 		render() {
 			return (
 				<div>
-              <span
-				  contentEditable
-				  ref={this.contentEditable}
-				  onInput={this.emitChange}
-				  onBlur={this.emitChange}
-			  />
+				  <span
+					  contentEditable
+					  ref={this.contentEditable}
+					  onInput={this.emitChange}
+					  onBlur={this.emitChange}
+				  />
 				</div>
 			)
 		}
