@@ -6,7 +6,9 @@ import {Paragraph, ParagraphTest} from 'elements/Paragraph';
 import {SelectedContainer} from 'containers';
 import {createElement, createElement1} from 'helpers/createElement';
 import Inspector from 'inspectors';
+import uuid from 'uuid'
 
+window.uuid = uuid
 
 class App extends Component {
 
@@ -27,7 +29,7 @@ class App extends Component {
 						<h3>This is demo Element</h3>
 						<div>
 							<Paragraph1/>
-							{/*<Paragraph2/>*/}
+							<Paragraph2/>
 							{/*<Paragraph3/>*/}
 						</div>
 					</IFrame>
@@ -42,7 +44,7 @@ class App extends Component {
 }
 
 const Paragraph1 = createElement({})(Paragraph)
-const Paragraph2 = createElement1({})(Paragraph)
+const Paragraph2 = createElement({})(Paragraph)
 const Paragraph3 = createElement1({})(ParagraphTest)
 
 export default App;

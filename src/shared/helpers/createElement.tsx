@@ -3,13 +3,15 @@ import {Container, Subscribe} from 'unstated-x';
 import {SelectedContainer} from 'containers';
 
 export const createElement = (settings: object) => (Element: React.ComponentType) => {
+
 	return class PFElement extends Component<any, any> {
 		stateContainer: any
-		styleContainer: any
 		DOMNodeRef: RefObject<HTMLElement> = React.createRef()
 		elementRef: RefObject<Component> = React.createRef()
 		styledRefs: RefObject<Component> = React.createRef()
-
+		id: string = Math.random()
+			.toString(36)
+			.substring(5).replace(/[0-9]/, '')
 		constructor(props: {
 			data: object
 		}, context: object) {
@@ -22,7 +24,6 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 
 			console.log(2222, containerState)
 			this.stateContainer = new Container(containerState)
-			this.styleContainer = new Container({})
 
 		}
 
@@ -62,7 +63,8 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 							extraProps={{
 								onPointerDown: this.handlePointerDown,
 								innerRef: this.DOMNodeRef,
-								ref: this.styledRefs
+								ref: this.styledRefs,
+								className: this.id
 
 						}}
 							ref={this.elementRef}

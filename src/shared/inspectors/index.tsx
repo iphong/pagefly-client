@@ -3,6 +3,7 @@ import {Container, Subscribe} from 'unstated-x';
 import {SelectedContainer, StyleContainer} from '../containers';
 import IFrame from '../components/IFrame';
 import styled from 'styled-components';
+import { SketchPicker } from 'react-color';
 
 function getStyleSheet(document: Document, device: string) {
 	const styleSheetList: StyleSheetList = document.styleSheets
@@ -38,7 +39,8 @@ export default class Inspector extends React.Component<{frame: IFrame}> {
 		return this.props.frame.document
 	}
 	state = {
-		style: ''
+		style: '',
+		color: 'red'
 	}
 	componentDidMount() {
 
@@ -55,20 +57,38 @@ export default class Inspector extends React.Component<{frame: IFrame}> {
 		const style = isValidJsonString(this.state.style)
 		if (style) {
 			allStyle.setStyle(selector, style)
+		} else {
+			console.error('Style must be valid JSON string')
 		}
 	}
 
 	render() {
 		return <Subscribe to={[SelectedContainer]}>
 				{({state: {selected, selector}}) => {
-					const {stateContainer, styleContainer} = selected
-					return selected && stateContainer && styleContainer && <Subscribe to={[stateContainer, styleContainer]}>
+					const {stateContainer} = selected
+
+					allStyle.getStyle(selector)
+					return selected && stateContainer && <Subscribe to={[stateContainer]}>
 						{(stateCon, styleCon) => <div>
 								<Input onChange={(value: string) => stateCon.setStateSync({value})} value={stateCon.state.value} />
 
 						<div>
 							Style: <TextArea value={this.state.style} onChange={e => this.setState({style: e.target.value})} />
+
+
 							<button onClick={() => this.saveStyle(selector)}>Save Style</button>
+						</div><div>
+							<SketchPicker
+								color={ (allStyle.getStyle(selector) as {backgroundColor: string}).backgroundColor }
+								onChange={ (color: {
+									hex: string
+								}) => {
+									console.log(color.hex)
+									allStyle.setStyle(selector, {backgroundColor: color.hex})
+
+								}
+								}
+							/>
 						</div>
 						</div>}
 					</Subscribe>

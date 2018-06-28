@@ -59,9 +59,7 @@ export default class IFrame extends React.Component<{head?: string, style?: obje
             {this.state.root
             && createPortal(
                 <StyleSheetManager target={this.iframe.contentDocument.head}>
-                    <Fragment>
-                        <body>{this.props.children}</body>
-                    </Fragment>
+					<body>{this.props.children}</body>
                 </StyleSheetManager>,
                 this.state.root
             )}

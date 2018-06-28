@@ -3,4 +3,5 @@ interface Window {
 	inspector: any;
 	allStyle: any;
 	SelectedContainer: any;
+	uuid: any;
 }
