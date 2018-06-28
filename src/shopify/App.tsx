@@ -7,11 +7,6 @@ import {SelectedContainer} from 'containers';
 import {createElement, createElement1} from 'helpers/createElement';
 import Inspector from 'inspectors';
 
-declare global {
-	interface Window {
-		selected: any;
-	}
-}
 
 class App extends Component {
 

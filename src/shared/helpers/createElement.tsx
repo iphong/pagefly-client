@@ -8,6 +8,7 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 		styleContainer: any
 		DOMNodeRef: RefObject<HTMLElement> = React.createRef()
 		elementRef: RefObject<Component> = React.createRef()
+		styledRefs: RefObject<Component> = React.createRef()
 
 		constructor(props: {
 			data: object
@@ -32,27 +33,36 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 			return this.DOMNodeRef.current
 		}
 
+		get selector() {
+			return Array.from(this.DOMNode.classList).map(s => `.${s}`).join('')
+		}
+
+		setStyle(value: object) {
+
+		}
+
 		handlePointerDown = (e: MouseEvent) => {
 			console.log('mouse down', this)
 			SelectedContainer.setState({
-				selected: this
+				selected: this,
+				selector: this.selector
 			})
 		}
 
 		render() {
 			return (
-				<Subscribe to={[this.stateContainer, this.styleContainer]}>
-					{(stateContainer, styleContainer) => {
+				<Subscribe to={[this.stateContainer]}>
+					{(stateContainer) => {
 						return <Element
 							{...stateContainer.state}
-							style={styleContainer.state}
 							onChange={(value: object) => {
 								console.log('onChange', value)
 								stateContainer.setState(value)
 							}}
 							extraProps={{
 								onPointerDown: this.handlePointerDown,
-								ref: this.DOMNodeRef
+								innerRef: this.DOMNodeRef,
+								ref: this.styledRefs
 
 						}}
 							ref={this.elementRef}
