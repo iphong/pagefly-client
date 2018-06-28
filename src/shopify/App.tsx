@@ -4,7 +4,7 @@ import {Container, Provider, Subscribe} from 'unstated-x';
 import {findDOMNode} from 'react-dom';
 import {Paragraph, ParagraphTest} from 'elements/Paragraph';
 import {SelectedContainer} from 'containers';
-import {createElement, createElement1} from 'helpers/createElement';
+import {createElement} from 'helpers/createElement';
 import Inspector from 'inspectors';
 import uuid from 'uuid'
 
@@ -45,6 +45,5 @@ class App extends Component {
 
 const Paragraph1 = createElement({})(Paragraph)
 const Paragraph2 = createElement({})(Paragraph)
-const Paragraph3 = createElement1({})(ParagraphTest)
 
 export default App;

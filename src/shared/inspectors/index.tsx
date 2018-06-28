@@ -75,7 +75,6 @@ export default class Inspector extends React.Component<{frame: IFrame}> {
 						<div>
 							Style: <TextArea value={this.state.style} onChange={e => this.setState({style: e.target.value})} />
 
-
 							<button onClick={() => this.saveStyle(selector)}>Save Style</button>
 						</div><div>
 							<SketchPicker

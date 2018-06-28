@@ -4,4 +4,5 @@ interface Window {
 	allStyle: any;
 	SelectedContainer: any;
 	uuid: any;
+	elementInstances: any;
 }

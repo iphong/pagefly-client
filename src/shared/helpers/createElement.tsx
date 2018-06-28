@@ -1,6 +1,11 @@
 import React, {Component, FormEvent, RefObject} from 'react';
 import {Container, Subscribe} from 'unstated-x';
 import {SelectedContainer} from 'containers';
+import uuid from 'uuid';
+
+export const elementInstances = new Map()
+
+window.elementInstances = elementInstances
 
 export const createElement = (settings: object) => (Element: React.ComponentType) => {
 
@@ -9,9 +14,7 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 		DOMNodeRef: RefObject<HTMLElement> = React.createRef()
 		elementRef: RefObject<Component> = React.createRef()
 		styledRefs: RefObject<Component> = React.createRef()
-		id: string = Math.random()
-			.toString(36)
-			.substring(5).replace(/[0-9]/, '')
+		id: string = uuid()
 		constructor(props: {
 			data: object
 		}, context: object) {
@@ -24,7 +27,7 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 
 			console.log(2222, containerState)
 			this.stateContainer = new Container(containerState)
-
+			elementInstances.set(this.id, this)
 		}
 
 		get element() {
@@ -51,6 +54,7 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 		}
 
 		render() {
+			const className = this.id.split('-')[0].replace(/[0-9]/, '')
 			return (
 				<Subscribe to={[this.stateContainer]}>
 					{(stateContainer) => {
@@ -64,7 +68,7 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 								onPointerDown: this.handlePointerDown,
 								innerRef: this.DOMNodeRef,
 								ref: this.styledRefs,
-								className: this.id
+								className
 
 						}}
 							ref={this.elementRef}
@@ -78,59 +82,3 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 
 }
 
-export const createElement1 = (settings: object) => (Element: any) => {
-
-	return class PFElement extends Component<any, any> {
-		container: any
-		constructor(props: {
-			data: object
-		}) {
-			super(props,)
-			const { data, ...rest } = props
-			const containerState = {
-				...Element.defaultProps,
-				...data
-			}
-
-			console.log(2222, containerState)
-			this.container = new Container(containerState)
-
-		}
-
-		handlePointerDown = (e: PointerEvent) => {
-			console.log('mouse down', this)
-			SelectedContainer.setState({
-				selected: this
-			})
-		}
-
-		get element() {
-			return this.elementRef.current
-		}
-		get DOMNode() {
-			return this.DOMNodeRef.current
-		}
-
-		componentDidMount() {
-			console.log(this.element, this.DOMNode)
-			this.element.setState = this.container.setStateSync.bind(this.container)
-		}
-
-		elementRef: RefObject<Component> = React.createRef()
-		DOMNodeRef: RefObject<HTMLElement> = React.createRef()
-
-		render() {
-			return (
-				<Subscribe to={[this.container]}>
-					{container => {
-						return <Element  extraProps={{
-							onPointerDown: this.handlePointerDown,
-							ref: this.DOMNodeRef
-						}} ref={this.elementRef} {...container.state} container={container}/>
-					}}
-				</Subscribe>
-			)
-		}
-
-	}
-}
