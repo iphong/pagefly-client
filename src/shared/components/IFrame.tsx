@@ -6,16 +6,23 @@ type IFrameState = {
     root: Element
 }
 
-export default class IFrame extends React.Component<any, any> {
+export default class IFrame extends React.Component<{head?: string, style?: object, onLoad: Function}, any> {
 
     get iframe() {
         return this.frame.current
     }
 
+    get window() {
+    	return this.iframe.contentWindow
+	}
+    get document() {
+    	return this.iframe.contentDocument
+	}
+
     state: IFrameState = {
         root: null
     }
-    private frame: React.RefObject<HTMLIFrameElement> = React.createRef()
+    frame: React.RefObject<HTMLIFrameElement> = React.createRef()
 
     componentDidMount() {
         this.iframe.addEventListener('load', this.handleLoad, true)
@@ -29,19 +36,19 @@ export default class IFrame extends React.Component<any, any> {
         const root = this.iframe.contentDocument.querySelector('html')
         this.iframe.contentDocument.body.remove()
         this.setState({root}, () => {
-
+			this.props.onLoad(this)
         })
     }
 
     render() {
         return <iframe
-            {...this.props}
             ref={this.frame}
             name="React Portal Frame"
             srcDoc={`<!DOCTYPE html><html>
                         <head>
                             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                             <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                            ${this.props.head}
                         </head></html>`}
             style={{
                 border: 0,
