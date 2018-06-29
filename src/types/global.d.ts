@@ -5,4 +5,5 @@ interface Window {
 	SelectedContainer: any;
 	uuid: any;
 	elementInstances: any;
+	element: any;
 }

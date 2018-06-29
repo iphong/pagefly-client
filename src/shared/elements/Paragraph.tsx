@@ -1,6 +1,7 @@
 import React, {FormEvent, RefObject} from 'react';
 import {Container} from 'unstated-x';
 import styled from 'styled-components'
+import {createElement} from '../helpers/createElement';
 
 const P = styled.p`
 	& {
@@ -10,28 +11,13 @@ const P = styled.p`
 
 `
 
-export class ParagraphTest extends React.Component<{ value: string, extraProps: object }> {
-
-	static defaultProps = {
-		value: 'Hello'
-	}
-
-	render() {
-		console.log(this.state, this.props)
-		return (
-			<P {...this.props.extraProps}>
-				<input value={this.props.value || 'test'} onChange={e => this.setState({value: e.target.value})}/>
-
-			</P>
-		)
-	}
-}
-
-export class Paragraph extends React.Component<{ value: string, extraProps: object, container: Container<any>, onChange: Function }> {
+ class Paragraph extends React.Component<{ value: string, extraProps: object, container: Container<any>, onChange: Function }> {
 
 	static defaultProps = {
 		value: 'Hello world!'
 	}
+
+	static type = 'Paragraph'
 
 	get content() {
 		return this.contentEditable.current
@@ -79,3 +65,5 @@ export class Paragraph extends React.Component<{ value: string, extraProps: obje
 		)
 	}
 }
+
+export default createElement({})(Paragraph)

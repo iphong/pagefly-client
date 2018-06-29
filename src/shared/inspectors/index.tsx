@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container, Subscribe} from 'unstated-x';
-import {SelectedContainer, StyleContainer} from '../containers';
-import IFrame from '../components/IFrame';
+import {SelectedContainer, StyleContainer} from 'containers';
+import IFrame from 'components/IFrame';
 import styled from 'styled-components';
 import { SketchPicker } from 'react-color';
 
@@ -63,13 +63,14 @@ export default class Inspector extends React.Component<{frame: IFrame}> {
 	}
 
 	render() {
-		return <Subscribe to={[SelectedContainer]}>
+		return <Subscribe to={[SelectedContainer, allStyle]}>
 				{({state: {selected, selector}}) => {
+					if (!selected) { return null }
 					const {stateContainer} = selected
 
 					allStyle.getStyle(selector)
-					return selected && stateContainer && <Subscribe to={[stateContainer]}>
-						{(stateCon, styleCon) => <div>
+					return stateContainer && <Subscribe to={[stateContainer]}>
+						{(stateCon) => <div>
 								<Input onChange={(value: string) => stateCon.setStateSync({value})} value={stateCon.state.value} />
 
 						<div>
@@ -85,10 +86,18 @@ export default class Inspector extends React.Component<{frame: IFrame}> {
 									console.log(color.hex)
 									allStyle.setStyle(selector, {backgroundColor: color.hex})
 
-								}
-								}
+								}}
 							/>
 						</div>
+							<div>
+								Computed style::
+								{/*<textarea value={selected.computedStyle.cssText} />*/}
+							</div>
+
+							<div>
+								<textarea></textarea>
+							</div>
+
 						</div>}
 					</Subscribe>
 				}}

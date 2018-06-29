@@ -12,7 +12,6 @@ export class StyleContainer extends Container<object> {
 	state: StateStyle = {}
 
 	setStyle = (selector: string, style: object = {}) => {
-		console.log('setStyle', selector, style)
 		const cssRules = Array.from(this.instance.cssRules)
 		let rule = cssRules.find((s: CSSStyleRule) => s.selectorText === selector ) as CSSStyleRule
 
@@ -20,23 +19,14 @@ export class StyleContainer extends Container<object> {
 			const ruleIndex = this.instance.insertRule(`${selector} {}`)
 			rule = this.instance.cssRules[ruleIndex] as CSSStyleRule
 		}
-		Object.keys(style).forEach(
-			(key: keyof typeof style) => {
-				rule.style[key] = style[key]
-			}
-		)
-
-		this.setState((prevState: {
-			[selector: string]: string
-
-		}) => {
-			console.log(prevState[selector] ? prevState[selector] : {}, style)
-			return {[selector]: Object.assign( prevState[selector] ? prevState[selector] : {}, style)}
-		})
-		console.log(rule)
+		const currentStyle = rule.style
+		Object.assign(currentStyle, style)
+		Object.assign( this.state, {[selector]: style})
+		console.log('new Style', currentStyle, this.state)
+		this._listeners.forEach(fn => fn(style))
 	}
 
-	getStyle = (selector: string) => {
+	getStyle = (selector: string)  => {
 		return this.state[selector] || {}
 	}
 }

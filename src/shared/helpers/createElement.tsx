@@ -1,20 +1,26 @@
-import React, {Component, FormEvent, RefObject} from 'react';
+import React, {Component, ComponentClass, ComponentElement, FormEvent, RefObject} from 'react';
 import {Container, Subscribe} from 'unstated-x';
 import {SelectedContainer} from 'containers';
 import uuid from 'uuid';
+
+export interface PFElementInterface extends ComponentClass{
+	type: string
+}
 
 export const elementInstances = new Map()
 
 window.elementInstances = elementInstances
 
-export const createElement = (settings: object) => (Element: React.ComponentType) => {
+export const createElement = (settings: object) => (Element: PFElementInterface) => {
 
 	return class PFElement extends Component<any, any> {
 		stateContainer: any
+
 		DOMNodeRef: RefObject<HTMLElement> = React.createRef()
 		elementRef: RefObject<Component> = React.createRef()
 		styledRefs: RefObject<Component> = React.createRef()
-		id: string = uuid()
+		id: string = this.props.id || uuid()
+		static type = Element.type
 		constructor(props: {
 			data: object
 		}, context: object) {
@@ -40,11 +46,9 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 		get selector() {
 			return Array.from(this.DOMNode.classList).map(s => `.${s}`).join('')
 		}
-
-		setStyle(value: object) {
-
+		get computedStyle() {
+			return getComputedStyle(this.DOMNode)
 		}
-
 		handlePointerDown = (e: MouseEvent) => {
 			console.log('mouse down', this)
 			SelectedContainer.setState({
@@ -54,7 +58,7 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 		}
 
 		render() {
-			const className = this.id.split('-')[0].replace(/[0-9]/, '')
+			const className = 'pf-' + this.id.split('-')[0]
 			return (
 				<Subscribe to={[this.stateContainer]}>
 					{(stateContainer) => {
@@ -68,7 +72,9 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 								onPointerDown: this.handlePointerDown,
 								innerRef: this.DOMNodeRef,
 								ref: this.styledRefs,
-								className
+								className,
+								draggable: true,
+								'data-element': this.id
 
 						}}
 							ref={this.elementRef}
@@ -81,4 +87,3 @@ export const createElement = (settings: object) => (Element: React.ComponentType
 	}
 
 }
-
