@@ -6,14 +6,19 @@ import uuid from 'uuid';
 export interface PFElementInterface extends ComponentClass{
 	type: string
 }
+type ElementProps = {
+	type: string,
+	data: object,
+	id?: string
+}
 
 export const elementInstances = new Map()
 
 window.elementInstances = elementInstances
 
-export const createElement = (settings: object) => (Element: PFElementInterface) => {
+export const createPFElement = (settings: object) => (Element: PFElementInterface) => {
 
-	return class PFElement extends Component<any, any> {
+	return class PFElement extends Component<ElementProps, any> {
 		stateContainer: any
 
 		DOMNodeRef: RefObject<HTMLElement> = React.createRef()
@@ -21,9 +26,7 @@ export const createElement = (settings: object) => (Element: PFElementInterface)
 		styledRefs: RefObject<Component> = React.createRef()
 		id: string = this.props.id || uuid()
 		static type = Element.type
-		constructor(props: {
-			data: object
-		}, context: object) {
+		constructor(props: ElementProps, context: object) {
 			super(props, context)
 			const { data, ...rest } = props
 			const containerState = {
@@ -34,6 +37,13 @@ export const createElement = (settings: object) => (Element: PFElementInterface)
 			console.log(2222, containerState)
 			this.stateContainer = new Container(containerState)
 			elementInstances.set(this.id, this)
+		}
+
+		componentDidUpdate(prevProps: ElementProps) {
+
+			if (prevProps.data !== this.props.data) {
+				this.stateContainer.setStateSync(this.props.data)
+			}
 		}
 
 		get element() {
@@ -87,3 +97,5 @@ export const createElement = (settings: object) => (Element: PFElementInterface)
 	}
 
 }
+
+export default createPFElement

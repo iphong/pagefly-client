@@ -1,17 +1,17 @@
 import React from 'react'
-import {createElement} from '../helpers/createElement';
+import {createPFElement} from '../helpers/createElement';
 import styled from 'styled-components';
 const B = styled.button``
-class Button extends React.Component<{extraProps: object}> {
+class Button extends React.Component<{extraProps: object, minh: string}> {
 
 	static type = 'Button'
 	render() {
 		return (
 			<B {...this.props.extraProps}>
-				This is a draggable button
+				This is a draggable button {this.props.minh}
 			</B>
 		)
 	}
 }
 
-export default createElement({})(Button)
+export default createPFElement({})(Button)

@@ -1,7 +1,7 @@
 import React, {FormEvent, RefObject} from 'react';
 import {Container} from 'unstated-x';
 import styled from 'styled-components'
-import {createElement} from '../helpers/createElement';
+import {createPFElement} from '../helpers/createElement';
 
 const P = styled.p`
 	& {
@@ -66,4 +66,4 @@ const P = styled.p`
 	}
 }
 
-export default createElement({})(Paragraph)
+export default createPFElement({})(Paragraph)

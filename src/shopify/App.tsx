@@ -12,7 +12,7 @@ import IFrame from 'components/IFrame';
 import {Container, Provider, Subscribe} from 'unstated-x';
 import {findDOMNode} from 'react-dom';
 import {SelectedContainer} from 'containers';
-import {createElement} from 'helpers/createElement';
+import {createPFElement} from 'helpers/createElement';
 import Inspector from 'inspectors';
 import uuid from 'uuid'
 import Section from '../shared/elements/Section';
@@ -75,13 +75,24 @@ const ElementComponents: {
 	}
 }
 
-class ElementLoader extends React.Component<{type: string}> {
+class ElementLoader extends React.Component<{type: string, data: object}> {
 
 	state = {
 		Instance: (): Component => null
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
+		this.loadElement()
+	}
+
+	componentDidUpdate(prevProps: {type: string}) {
+		console.log('did update')
+		if (prevProps.type !== this.props.type) {
+			this.loadElement()
+		}
+	}
+
+	loadElement = async () => {
 		const {type} = this.props
 		const Instance = (await ElementComponents[type].load()).default
 		console.log(Instance)
@@ -90,7 +101,7 @@ class ElementLoader extends React.Component<{type: string}> {
 
 	render() {
 		const {Instance} = this.state
-		return <Instance />
+		return <Instance {...this.props} />
 	}
 }
 
@@ -106,7 +117,7 @@ class Element extends React.Component {
 	}
 
 	renderChildren = (items: ItemType[]) => {
-		return items.map((item: ItemType, key: number) => <ElementLoader key={item.id || key} type={item.type}/>)
+		return items.map((item: ItemType, key: number) => <ElementLoader key={item.id || key} type={item.type} data={item.data}/>)
 	}
 
 	render() {
@@ -134,8 +145,6 @@ class App extends Component {
 					}}>
 						<h3>This is demo Element</h3>
 						<Page>
-							<Button />
-							<Section />
 							<Element />
 						</Page>
 					</IFrame>
