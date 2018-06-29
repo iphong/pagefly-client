@@ -72,10 +72,14 @@ const ElementComponents: {
 	Button: {
 		type: 'Button',
 		load: () => import('elements/Button.tsx')
+	},
+	Section: {
+		type: 'Section',
+		load: () => import('elements/Section.tsx')
 	}
 }
 
-class ElementLoader extends React.Component<{type: string, data: object}> {
+class ElementLoader extends React.Component<{type: string, data?: object, container?: ElementContainer}> {
 
 	state = {
 		Instance: (): Component => null
@@ -101,10 +105,11 @@ class ElementLoader extends React.Component<{type: string, data: object}> {
 
 	render() {
 		const {Instance} = this.state
-		return <Instance {...this.props} />
+		return <Subscribe to={[this.props.container]}>
+			{container => <Instance container={container} {...container.state} />}
+		</Subscribe>
 	}
 }
-
 
 class Element extends React.Component {
 
@@ -117,7 +122,9 @@ class Element extends React.Component {
 	}
 
 	renderChildren = (items: ItemType[]) => {
-		return items.map((item: ItemType, key: number) => <ElementLoader key={item.id || key} type={item.type} data={item.data}/>)
+		return items.map((item: ItemType, key: number) => (
+			<ElementLoader key={item.id || key} type={item.type} data={item.data}/>
+		))
 	}
 
 	render() {
@@ -125,7 +132,25 @@ class Element extends React.Component {
 		return this.renderChildren(this.state.items)
 	}
 }
+export type ElementContainerState = {
+	type: string
+	children: Array<string|number>
+	data: object
+}
+export class ElementContainer extends Container<ElementContainerState> {}
 
+const items: { [type: string]: ElementContainer } = window.items = {
+	1: new ElementContainer({ type: 'Section', children: [2], data: {} }),
+	2: new ElementContainer({ type: 'Button', children: [], data: {} })
+}
+export const renderElement = function (id: string | number): ReactNode {
+	const container: ElementContainer = items[id]
+	const type = container.state.type
+	return <ElementLoader type={type} container={container} />
+}
+window.addNewItem = function addNewItem(id: number, type: string): void {
+	items[id] = new ElementContainer({ type, children: [], data: {}})
+}
 class App extends Component {
 
 	state: {frame: IFrame} = {
@@ -136,27 +161,10 @@ class App extends Component {
 		const {frame} = this.state
 		return (
 			<Provider>
-				<div className="App">
-					<IFrame head={`
-						<style data-pagefly-css="all"></style>
-						<style data-pagefly-css="mobile"></style>
-					`} onLoad={(frame: IFrame) => {
-						this.setState({frame})
-					}}>
-						<h3>This is demo Element</h3>
-						<Page>
-							<Element />
-						</Page>
-					</IFrame>
-
-					<h3>This is demo control inspector:</h3>
-					{frame && <Inspector frame={frame} />}
-
-				</div>
+				{renderElement(1)}
 			</Provider>
 		);
 	}
 }
-
 
 export default App;

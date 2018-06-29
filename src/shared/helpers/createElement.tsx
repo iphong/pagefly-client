@@ -2,6 +2,7 @@ import React, {Component, ComponentClass, ComponentElement, FormEvent, RefObject
 import {Container, Subscribe} from 'unstated-x';
 import {SelectedContainer} from 'containers';
 import uuid from 'uuid';
+import {ElementContainer} from '../../shopify/App'
 
 export interface PFElementInterface extends ComponentClass{
 	type: string
@@ -9,6 +10,7 @@ export interface PFElementInterface extends ComponentClass{
 type ElementProps = {
 	type: string,
 	data: object,
+	container: ElementContainer,
 	id?: string
 }
 
@@ -35,7 +37,7 @@ export const createPFElement = (settings: object) => (Element: PFElementInterfac
 			}
 
 			console.log(2222, containerState)
-			this.stateContainer = new Container(containerState)
+			this.stateContainer = this.props.container
 			elementInstances.set(this.id, this)
 		}
 
