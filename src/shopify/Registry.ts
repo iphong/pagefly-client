@@ -17,7 +17,7 @@ const registry: { [key: number]: Container<ContainerState> } = {
 	1: new Container({
 		id: uuid(),
 		type: 'Button',
-		data: {},
+		data: { value: 'Another text' },
 		children: []
 	})
 }

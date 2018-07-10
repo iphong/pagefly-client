@@ -2,9 +2,10 @@ import React from 'react'
 import {createPFElement} from '../helpers/createElement';
 import styled from 'styled-components';
 const B = styled.button``
-export default class Button extends React.Component<{}> {
-
-	static type = 'Button'
+export default class Button extends React.Component<{ value: string }> {
+	static defaultProps = {
+		value: 'Test Button'
+	}
 	static inspector() {
 		return <div>
 			Button Inspector
@@ -13,8 +14,8 @@ export default class Button extends React.Component<{}> {
 	}
 	render() {
 		return (
-			<B>
-				This is a draggable button
+			<B className="btn-abc">
+				{this.props.value}
 			</B>
 		)
 	}
