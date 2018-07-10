@@ -24,6 +24,18 @@ export function addElement(parentID: number, type: string, data: object = {}) {
 	parentContainer.setState(newState)
 }
 
+export function createElement(AComponent: React.ClassType<{}, any, any>): React.ClassType<{}, any, any> {
+	return class extends AComponent {
+		[Symbol.toStringTag] = `PF::${AComponent.displayName || AComponent.name}`
+		render() {
+			console.log(this)
+			const element = super.render()
+			const className = element.props.className || ''
+			return React.cloneElement(element, { className: `${className} abc` })
+		}
+	}
+}
+
 window.addElement = addElement
 window.elements = elements
 window.registry = registry
