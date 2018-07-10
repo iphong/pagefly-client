@@ -8,4 +8,8 @@ interface Window {
 	element: any
 	items: object
 	addNewItem: Function
+	addElement: Function
+	elements: any
+	registry: any
+	app: any
 }

@@ -10,12 +10,21 @@ const S = styled.section`
 `
 export default class Section extends React.Component<any> {
 	static type = 'Section'
+	static inspector() {
+		return <div>
+			Section Inspector
+			<input />
+		</div>
+	}
 	render() {
 		console.log(this.props.children)
 		return <S>
 
 			<div className="container">
-				{React.Children.map(this.props.children, renderElement)}
+				This is Section
+				<div>
+					{this.props.children}
+				</div>
 			</div>
 		</S>
 	}

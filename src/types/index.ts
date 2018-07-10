@@ -5,5 +5,6 @@ declare module 'react-color' {
 declare module 'uuid' {
 	export default function uuid(): string;
 }
-
-
+declare module 'react-portal-frame' {
+	export default class Frame extends React.Component<any> {}
+}

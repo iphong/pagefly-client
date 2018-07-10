@@ -49,6 +49,8 @@
     "react-color": "^2.14.1",
     "react-dev-utils": "6.0.0-next.3e165448",
     "react-dom": "^16.4.1",
+    "react-dom-server": "^0.0.5",
+    "react-portal-frame": "^1.0.6",
     "resolve": "1.8.1",
     "sass-loader": "7.0.3",
     "style-loader": "0.21.0",
